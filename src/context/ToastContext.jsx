@@ -1,0 +1,1 @@
+import{createContext,useContext,useState}from'react';const C=createContext(null);export function ToastProvider({children}){const[msg,setMsg]=useState('');const notify=m=>{setMsg(m);setTimeout(()=>setMsg(''),3200)};return <C.Provider value={notify}>{children}{msg&&<div className="toast">{msg}</div>}</C.Provider>}export const useToast=()=>useContext(C);

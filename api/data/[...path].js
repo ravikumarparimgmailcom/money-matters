@@ -43,14 +43,21 @@ export default async function handler(req, res) {
     });
   }
 
-  const p = req.query?.path || "";
+  const url = new URL(
+  req.url,
+  `https://${req.headers.host || "localhost"}`
+);
 
-  const endpoint = (
-    Array.isArray(p) ? p.join("/") : String(p)
-  )
-    .split("/")
-    .filter(Boolean)
-    .join("/");
+const routePath = url.pathname.split("/api/data/")[1] || "";
+
+const p = req.query?.path || routePath;
+
+const endpoint = (
+  Array.isArray(p) ? p.join("/") : String(p)
+)
+  .split("/")
+  .filter(Boolean)
+  .join("/");
 
   const allowed = auth.role === "admin" ? ADMIN : USER;
 
